@@ -14,10 +14,13 @@ async function main() {
       data: categories,
       skipDuplicates: true,
     });
-    await prisma.product.createMany({
-      data: products,
-      skipDuplicates: true,
-    });
+    // Truncar la tabla y reiniciar el contador de IDs
+    await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
+    const batchSize = 20;
+    for (let i = 0; i < products.length; i += batchSize) {
+      const batch = products.slice(i, i + batchSize);
+      await prisma.product.createMany({ data: batch });
+    }
     console.log("Seeding completed successfully.");
   } catch (error) {
     console.log(error);
