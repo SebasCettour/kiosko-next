@@ -8,7 +8,20 @@ datasource db {
 }
 
 model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  slug     String    @unique
+  products Product[]
+}
+
+model Product {
   id   Int    @id @default(autoincrement())
   name String @unique
-  slug String @unique
+  price       Float
+  imageUrl    String?
+  description String?
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@index([categoryId])
 }
