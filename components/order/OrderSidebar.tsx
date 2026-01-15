@@ -1,3 +1,5 @@
+
+'use server';
 import {prisma} from "@/src/lib/prisma";
 
 async function getCategories() {
