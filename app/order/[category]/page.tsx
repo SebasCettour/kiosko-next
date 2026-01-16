@@ -19,6 +19,15 @@ export default async function OrderPage({
   const products = await getProducts(params.category);
   return (
     <>
+      <h1
+        className="
+      text-2xl
+      my-10
+      font-black
+      "
+      >
+        Elige y personaliza tu pedido
+      </h1>
       <div
         className="
     grid 

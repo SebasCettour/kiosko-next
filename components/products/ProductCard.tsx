@@ -1,4 +1,5 @@
 import { Product } from "@prisma/client";
+import Image from "next/image";
 
 type ProductCardProps = {
   product: Product;
@@ -7,6 +8,12 @@ type ProductCardProps = {
 export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="border bg-white">
+      <Image
+        src={`/products/${product.imageUrl}.jpg`}
+        alt={`Imagen producto ${product.name}`}
+        width={400}
+        height={500}
+      />
       <div className="p-5 ">
         <h3 className="text-2xl font-bold">{product.name}</h3>
         <p
@@ -19,6 +26,23 @@ export default function ProductCard({ product }: ProductCardProps) {
         >
           ${product.price.toFixed(2)}
         </p>
+        <button
+          type="button"
+          className="
+            mt-5 
+            w-full
+            bg-amber-500
+            hover:bg-amber-600
+            text-white
+            p-3
+            uppercase
+            font-bold
+            cursor-pointer
+            rounded
+            "
+        >
+          Agregar
+        </button>
       </div>
     </div>
   );
