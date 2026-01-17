@@ -11,37 +11,49 @@ export default function ProductDetails({ item }: ProductDetailsProps) {
   const decreaseQuantity = useStore((state) => state.decreaseQuantity);
   const removeFromCart = useStore((state) => state.removeFromCart);
   return (
-    <div className="shadow space-y-1 p-4 bg-white  border-t border-gray-200 ">
-      <div className="space-y-4">
-        <div className="flex justify-between items-start">
-          <p className="text-xl font-bold">{item.name} </p>
-
-          <button type="button" onClick={() => removeFromCart(String(item.id))}>
-            <XCircleIcon className="text-red-600 h-8 w-8" />
-          </button>
-        </div>
-        <p className="text-2xl text-amber-500 font-black">
-          {Number(item.price).toFixed(2)}
-        </p>
-        <div className="flex gap-5 px-10 py-2 bg-gray-100 w-fit rounded-lg">
-          <button
-            type="button"
-            onClick={() => decreaseQuantity(String(item.id))}
-          >
-            <MinusIcon className="h-6 w-6" />
-          </button>
-
-          <p className="text-lg font-black ">{item.quantity}</p>
-
-          <button type="button" onClick={() => increaseQuantity(item.id)}>
-            <PlusIcon className="h-6 w-6" />
-          </button>
-        </div>
-        <p className="text-xl font-black text-gray-700">
-          Subtotal: {(Number(item.price) * item.quantity).toFixed(2)}
-          <span className="font-normal"></span>
-        </p>
+    <div className="bg-white border rounded-lg shadow-md p-5 flex flex-col gap-3">
+      <div className="flex justify-between items-start">
+        <p className="text-lg font-bold text-gray-800">{item.name}</p>
+        <button
+          type="button"
+          onClick={() => removeFromCart(String(item.id))}
+          className="hover:scale-110 transition-transform"
+          title="Eliminar"
+        >
+          <XCircleIcon className="text-red-500 h-7 w-7" />
+        </button>
       </div>
+      <p className="text-xl text-amber-500 font-extrabold">
+        ${Number(item.price).toFixed(2)}
+      </p>
+      <div className="flex items-center gap-4 px-4 py-2 bg-gray-100 rounded-lg w-fit mx-auto">
+        <button
+          type="button"
+          onClick={() => decreaseQuantity(String(item.id))}
+          className="p-1 rounded hover:bg-gray-200 transition"
+          title="Disminuir"
+        >
+          <MinusIcon className="h-6 w-6" />
+        </button>
+        <span className="text-lg font-bold w-8 text-center">
+          {item.quantity}
+        </span>
+        <button
+          type="button"
+          onClick={() => increaseQuantity(item.id)}
+          className="p-1 rounded hover:bg-gray-200 transition"
+          title="Aumentar"
+        >
+          <PlusIcon className="h-6 w-6" />
+        </button>
+      </div>
+      <p className="text-lg font-bold text-gray-700 text-right">
+        Subtotal:{" "}
+        <span className="text-amber-600">
+          ${" "}
+          {(Number(item.price) * item.quantity).toFixed(2)}
+        </span>
+      </p>
     </div>
   );
 }

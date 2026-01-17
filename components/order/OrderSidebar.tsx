@@ -9,12 +9,18 @@ async function getCategories() {
 export default async function OrderSidebar() {
   const categories = await getCategories();
   return (
-    <aside className="md:w-72 md:h-screen bg-white">
-      <nav className="mt-10">
-        {categories.map((category) => (
-          <CategoryIcon key={category.id} 
-            category={category}
-          />
+    <aside className="md:w-72 md:h-screen bg-white rounded-xl shadow-lg p-4 flex flex-col">
+      <h2 className="text-xl font-extrabold text-amber-600 mb-6 text-center tracking-wide">
+        Categorías
+      </h2>
+      <nav className="flex-1 overflow-y-auto flex flex-col gap-2">
+        {categories.map((category, idx) => (
+          <div key={category.id}>
+            <CategoryIcon category={category} />
+            {idx < categories.length - 1 && (
+              <hr className="my-2 border-gray-200" />
+            )}
+          </div>
         ))}
       </nav>
     </aside>

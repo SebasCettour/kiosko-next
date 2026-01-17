@@ -16,8 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${font.className} bg-gray-4100 antialiased`}>
-        {children}
+      <body className={`${font.className} bg-gray-100 min-h-screen antialiased`}>
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+          {children}
+        </div>
       </body>
     </html>
   );
