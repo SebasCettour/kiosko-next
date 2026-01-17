@@ -1,11 +1,19 @@
+"use client"; 
+import { useStore } from "@/src/store";
+
+
 export default function OrdenSummary() {
+  const order = useStore((state) => state.order);
   return (
-    <div className="w-full h-full bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-200 p-6 flex flex-col gap-6">
-      <h1 className="text-3xl font-extrabold text-gray-800 text-center mb-4 tracking-tight drop-shadow-sm">Mi pedido</h1>
-      {/* Aquí iría el contenido del resumen de la orden */}
-      <div className="flex-1 flex flex-col items-center justify-center text-gray-400 italic">
-        Tu pedido está vacío
-      </div>
-    </div>
+    <aside className="lg:h-screen lg:overflow-y-scroll md:w-64 lg:w-96 p-5">
+      <h3 className="text-2xl font-bold mb-5">Resumen del Pedido</h3>
+      {order.length === 0 ? (
+        <p className="text-center my-25">No hay elementos en el pedido</p>
+      ) : (
+        <div className="mt-5">
+          <p></p>
+        </div>
+      )}
+    </aside>
   );
 }
