@@ -11,11 +11,16 @@ interface Store {
 export const useStore = create<Store>((set) => ({
   order: [],
   addToOrder: (product) => {
-    console.log("Adding to cart:", product);
-    // Implementation for adding to cart goes here
+    const { categoryId, imageUrl, ...data } = product;
+    set((state) => ({
+      order: [
+        ...state.order,
+        { ...data, quantity: 1, subtotal: 1 * product.price },
+      ],
+    }));
   },
   removeFromCart: (itemId) => {
     console.log("Removing from cart:", itemId);
     // Implementation for removing from cart goes here
-  }
-}))
+  },
+}));
