@@ -23,7 +23,9 @@ export default function AddProductButton({ product }: AddProductButtonProps) {
             cursor-pointer
             rounded
             "
-      onClick={() => addToOrder(product)}
+      onClick={() => {
+        addToOrder(product);
+      }}
     >
       Agregar
     </button>

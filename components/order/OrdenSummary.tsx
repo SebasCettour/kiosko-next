@@ -1,10 +1,19 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useStore } from "@/src/store";
 import ProductDetails from "./ProductDetails";
+import Toast from "../ui/Toast";
 
 export default function OrdenSummary() {
   const order = useStore((state) => state.order);
+  const [toast, setToast] = useState({ show: false, message: "" });
+
+  // Función para mostrar el toast
+  const showToast = (message: string) => {
+    setToast({ show: true, message });
+    setTimeout(() => setToast({ show: false, message: "" }), 1500);
+  };
+
   const total = useMemo(
     () =>
       order.reduce(
@@ -13,8 +22,10 @@ export default function OrdenSummary() {
       ),
     [order]
   );
+
   return (
     <aside className="bg-white border rounded-xl shadow-lg p-6 max-w-md w-full mx-auto lg:h-screen lg:overflow-y-auto flex-shrink-0">
+      <Toast message={toast.message} show={toast.show} />
       <h3 className="text-3xl font-extrabold mb-6 text-center text-amber-600">
         Resumen del Pedido
       </h3>
@@ -25,7 +36,7 @@ export default function OrdenSummary() {
       ) : (
         <div className="flex flex-col gap-4">
           {order.map((item) => (
-            <ProductDetails key={item.id} item={item} />
+            <ProductDetails key={item.id} item={item} showToast={showToast} />
           ))}
           <hr className="my-6" />
           <p className="text-2xl text-center">

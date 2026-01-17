@@ -1,22 +1,52 @@
 import { useStore } from "@/src/store";
 import { OrderItem } from "@/src/types";
 import { MinusIcon, PlusIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import React, { useEffect, useState } from "react";
 
 type ProductDetailsProps = {
   item: OrderItem;
+  showToast: (msg: string) => void;
 };
 
-export default function ProductDetails({ item }: ProductDetailsProps) {
+export default function ProductDetails({ item, showToast }: ProductDetailsProps) {
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+    const timeout = setTimeout(() => setAnimate(false), 500);
+    return () => clearTimeout(timeout);
+  }, [item.quantity]); // Se activa cuando cambia la cantidad
+
   const increaseQuantity = useStore((state) => state.increaseQuantity);
   const decreaseQuantity = useStore((state) => state.decreaseQuantity);
   const removeFromCart = useStore((state) => state.removeFromCart);
+
+  const handleIncrease = () => {
+    increaseQuantity(item.id);
+    showToast("Producto actualizado en el pedido");
+  };
+
+  const handleDecrease = () => {
+    decreaseQuantity(String(item.id));
+    showToast("Producto actualizado en el pedido");
+  };
+
+  const handleRemove = () => {
+    removeFromCart(String(item.id));
+    showToast("Producto eliminado");
+  };
+
   return (
-    <div className="bg-white border rounded-lg shadow-md p-5 flex flex-col gap-3">
+    <div
+      className={`bg-white border rounded-lg shadow-md p-5 flex flex-col gap-3 ${
+        animate ? "animate-bounce-in" : ""
+      }`}
+    >
       <div className="flex justify-between items-start">
         <p className="text-lg font-bold text-gray-800">{item.name}</p>
         <button
           type="button"
-          onClick={() => removeFromCart(String(item.id))}
+          onClick={handleRemove}
           className="hover:scale-110 transition-transform"
           title="Eliminar"
         >
@@ -29,7 +59,7 @@ export default function ProductDetails({ item }: ProductDetailsProps) {
       <div className="flex items-center gap-4 px-4 py-2 bg-gray-100 rounded-lg w-fit mx-auto">
         <button
           type="button"
-          onClick={() => decreaseQuantity(String(item.id))}
+          onClick={handleDecrease}
           className="p-1 rounded hover:bg-gray-200 transition"
           title="Disminuir"
         >
@@ -40,7 +70,7 @@ export default function ProductDetails({ item }: ProductDetailsProps) {
         </span>
         <button
           type="button"
-          onClick={() => increaseQuantity(item.id)}
+          onClick={handleIncrease}
           className="p-1 rounded hover:bg-gray-200 transition"
           title="Aumentar"
         >
