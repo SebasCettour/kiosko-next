@@ -5,6 +5,7 @@ import ProductDetails from "./ProductDetails";
 import Toast from "../ui/Toast";
 import { createOrder } from "@/actions/create-order-action";
 import { OrderSchema } from "@/src/schema";
+import { da } from "zod/locales";
 
 export default function OrdenSummary() {
   const order = useStore((state) => state.order);
@@ -25,7 +26,7 @@ export default function OrdenSummary() {
     [order],
   );
 
-  const handleCreateOrder = (formData: FormData) => {
+  const handleCreateOrder = async (formData: FormData) => {
     const data = {
       name: formData.get("name"),
     };
@@ -36,7 +37,12 @@ export default function OrdenSummary() {
     }
 
     const result = OrderSchema.safeParse(data);
-    createOrder();
+
+    const response = await createOrder(data);
+    if (response?.errors) {
+      showToast("Hubo un error al crear el pedido");
+      return;
+    }
   };
 
   return (
