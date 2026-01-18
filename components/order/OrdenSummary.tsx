@@ -24,7 +24,7 @@ export default function OrdenSummary() {
     [order],
   );
 
-  const handleCreateOrder = () => {
+  const handleCreateOrder = (formData: FormData) => {
     createOrder();
   };
 
@@ -51,6 +51,25 @@ export default function OrdenSummary() {
             </span>
           </p>
           <form className="w-full mt-10 space-y-5" action={handleCreateOrder}>
+            <input
+              type="text"
+              placeholder="Tu nombre"
+              name="name"
+              className="
+            
+            
+            bg-gray-100 
+            w-full 
+            px-4 
+            py-2 
+            rounded-md
+            border 
+            border-gray-300 
+            focus:outline-none 
+            focus:ring-2 
+            focus:ring-amber-500 focus:border-transparent"
+            />
+
             <input
               type="submit"
               className="py-2
