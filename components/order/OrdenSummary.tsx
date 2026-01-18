@@ -3,6 +3,7 @@ import React, { useMemo, useState } from "react";
 import { useStore } from "@/src/store";
 import ProductDetails from "./ProductDetails";
 import Toast from "../ui/Toast";
+import { createOrder } from "@/actions/create-order-action";
 
 export default function OrdenSummary() {
   const order = useStore((state) => state.order);
@@ -18,10 +19,14 @@ export default function OrdenSummary() {
     () =>
       order.reduce(
         (total, item) => total + Number(item.price) * item.quantity,
-        0
+        0,
       ),
-    [order]
+    [order],
   );
+
+  const handleCreateOrder = () => {
+    createOrder();
+  };
 
   return (
     <aside className="bg-white border rounded-xl shadow-lg p-6 max-w-md w-full mx-auto lg:h-screen lg:overflow-y-auto flex-shrink-0">
@@ -45,6 +50,23 @@ export default function OrdenSummary() {
               ${total.toFixed(2)}
             </span>
           </p>
+          <form className="w-full mt-10 space-y-5" action={handleCreateOrder}>
+            <input
+              type="submit"
+              className="py-2
+            rounded
+            uppercase
+            text-white
+            bg-black
+            w-full
+            font-bold
+            hover:bg-amber-600
+            text-center
+            cursor-pointer
+            "
+              value="Confirmar Pedido"
+            />
+          </form>
         </div>
       )}
     </aside>
