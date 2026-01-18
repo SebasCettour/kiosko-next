@@ -26,8 +26,13 @@ export default function OrdenSummary() {
   );
 
   const handleCreateOrder = (formData: FormData) => {
-    const data ={
+    const data = {
       name: formData.get("name"),
+    };
+
+    if (!data.name || String(data.name).trim() === "") {
+      showToast("Por favor ingresa tu nombre");
+      return;
     }
 
     const result = OrderSchema.safeParse(data);
