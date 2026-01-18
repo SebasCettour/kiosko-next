@@ -14,13 +14,38 @@ model Category {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
-  name        String
-  price       Float
-  imageUrl    String?
-  description String?
-  categoryId  Int
-  category    Category @relation(fields: [categoryId], references: [id])
+  id            Int             @id @default(autoincrement())
+  name          String
+  price         Float
+  imageUrl      String?
+  description   String?
+  categoryId    Int
+  category      Category        @relation(fields: [categoryId], references: [id])
+  orderProducts OrderProducts[]
 
   @@index([categoryId])
+}
+
+model Order {
+  id         Int       @id @default(autoincrement())
+  name       String
+  totalPrice Float
+  date       DateTime  @default(now())
+  status     Boolean   @default(false)
+  readyAt    DateTime?
+  orderProducts OrderProducts[]
+
+}
+
+model OrderProducts {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
 }
