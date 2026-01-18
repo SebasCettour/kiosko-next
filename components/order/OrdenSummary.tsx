@@ -4,6 +4,7 @@ import { useStore } from "@/src/store";
 import ProductDetails from "./ProductDetails";
 import Toast from "../ui/Toast";
 import { createOrder } from "@/actions/create-order-action";
+import { OrderSchema } from "@/src/schema";
 
 export default function OrdenSummary() {
   const order = useStore((state) => state.order);
@@ -25,6 +26,11 @@ export default function OrdenSummary() {
   );
 
   const handleCreateOrder = (formData: FormData) => {
+    const data ={
+      name: formData.get("name"),
+    }
+
+    const result = OrderSchema.safeParse(data);
     createOrder();
   };
 
