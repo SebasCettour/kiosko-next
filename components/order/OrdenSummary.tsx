@@ -29,6 +29,8 @@ export default function OrdenSummary() {
   const handleCreateOrder = async (formData: FormData) => {
     const data = {
       name: formData.get("name"),
+      total,
+      order,
     };
 
     if (!data.name || String(data.name).trim() === "") {
