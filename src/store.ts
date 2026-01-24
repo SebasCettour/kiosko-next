@@ -9,6 +9,7 @@ interface Store {
   increaseQuantity: (id: Product["id"]) => void;
   decreaseQuantity: (itemId: string) => void;
   removeFromCart: (itemId: string) => void;
+  clearOrder: () => void;
 }
 
 export const useStore = create<Store>((set, get) => ({
@@ -25,7 +26,7 @@ export const useStore = create<Store>((set, get) => ({
               quantity: item.quantity + 1,
               subtotal: (item.price + 1) * item.quantity + 1,
             }
-          : item
+          : item,
       );
     } else {
       items = [
@@ -47,7 +48,7 @@ export const useStore = create<Store>((set, get) => ({
               quantity: item.quantity + 1,
               subtotal: (item.price + 1) * item.quantity + 1,
             }
-          : item
+          : item,
       ),
     }));
   },
@@ -61,7 +62,7 @@ export const useStore = create<Store>((set, get) => ({
                 quantity: item.quantity - 1,
                 subtotal: (item.price + 1) * (item.quantity - 1) + 1,
               }
-            : item
+            : item,
         )
         .filter((item) => item.quantity > 0),
     }));
@@ -69,6 +70,11 @@ export const useStore = create<Store>((set, get) => ({
   removeFromCart: (itemId) => {
     set((state) => ({
       order: state.order.filter((item) => item.id !== Number(itemId)),
+    }));
+  },
+  clearOrder: () => {
+    set(() => ({
+      order: [],
     }));
   },
 }));

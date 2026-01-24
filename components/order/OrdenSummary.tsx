@@ -9,6 +9,7 @@ import { da } from "zod/locales";
 
 export default function OrdenSummary() {
   const order = useStore((state) => state.order);
+  const clearOrder = useStore((state) => state.clearOrder);
   const [toast, setToast] = useState({ show: false, message: "" });
 
   // Función para mostrar el toast
@@ -45,6 +46,8 @@ export default function OrdenSummary() {
       showToast("Hubo un error al crear el pedido");
       return;
     }
+    showToast("Pedido creado exitosamente");
+    clearOrder();
   };
 
   return (
