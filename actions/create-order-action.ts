@@ -1,5 +1,6 @@
 "use server";
 
+import { prisma } from "@/src/lib/prisma";
 import { OrderSchema } from "@/src/schema";
 
 export async function createOrder(data: unknown) {
@@ -9,8 +10,18 @@ export async function createOrder(data: unknown) {
   }
 
   try {
-    // TODO: Add your order creation logic here
-    return { success: true };
+    await prisma.order.create({
+    data: {
+      name: result.data.name,
+      totalPrice: result.data.total,
+      orderProducts: {
+        create: result.data.order.map(product => ({
+          productId: product.id,
+          quantity: product.quantity,
+        })),
+      }
+    }
+    });
   } catch (error) {
     return { errors: ["An unexpected error occurred."] };
   }
