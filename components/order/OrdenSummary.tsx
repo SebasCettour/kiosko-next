@@ -3,6 +3,7 @@ import React, { useMemo, useState } from "react";
 import { useStore } from "@/src/store";
 import ProductDetails from "./ProductDetails";
 import Toast from "../ui/Toast";
+import Spinner from "../ui/Spinner";
 import { createOrder } from "@/actions/create-order-action";
 import { OrderSchema } from "@/src/schema";
 import { da } from "zod/locales";
@@ -11,6 +12,7 @@ export default function OrdenSummary() {
   const order = useStore((state) => state.order);
   const clearOrder = useStore((state) => state.clearOrder);
   const [toast, setToast] = useState({ show: false, message: "" });
+  const [loading, setLoading] = useState(false);
 
   // Función para mostrar el toast
   const showToast = (message: string) => {
@@ -28,6 +30,7 @@ export default function OrdenSummary() {
   );
 
   const handleCreateOrder = async (formData: FormData) => {
+    setLoading(true);
     const data = {
       name: formData.get("name"),
       total,
@@ -36,6 +39,7 @@ export default function OrdenSummary() {
 
     if (!data.name || String(data.name).trim() === "") {
       showToast("Por favor ingresa tu nombre");
+      setLoading(false);
       return;
     }
 
@@ -44,10 +48,12 @@ export default function OrdenSummary() {
     const response = await createOrder(data);
     if (response?.errors) {
       showToast("Hubo un error al crear el pedido");
+      setLoading(false);
       return;
     }
     showToast("Pedido creado exitosamente");
     clearOrder();
+    setLoading(false);
   };
 
   return (
@@ -92,21 +98,14 @@ export default function OrdenSummary() {
             focus:ring-amber-500 focus:border-transparent"
             />
 
-            <input
+            <button
               type="submit"
-              className="py-2
-            rounded
-            uppercase
-            text-white
-            bg-black
-            w-full
-            font-bold
-            hover:bg-amber-600
-            text-center
-            cursor-pointer
-            "
-              value="Confirmar Pedido"
-            />
+              className="py-2 rounded uppercase text-white bg-black w-full font-bold hover:bg-amber-600 text-center cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
+              disabled={loading}
+            >
+              {loading && <Spinner size={20} color="#fff" />}
+              {loading ? "Procesando..." : "Confirmar Pedido"}
+            </button>
           </form>
         </div>
       )}
