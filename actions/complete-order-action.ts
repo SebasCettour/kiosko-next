@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/src/lib/prisma";
 
 export async function completeOrder(formData: FormData) {
@@ -16,6 +17,7 @@ export async function completeOrder(formData: FormData) {
       },
       data: { status: true, readyAt: new Date(Date.now()) },
     });
+    revalidatePath("/admin/orders");
   } catch (error) {
     console.error("Error completing order:", error);
     throw error;
