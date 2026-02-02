@@ -1,3 +1,4 @@
+import { completeOrder } from "@/actions/complete-order-action";
 import { OrderWithProducts } from "@/src/types";
 import { format } from "path";
 
@@ -43,7 +44,7 @@ export default function OrderCard({ order }: OrderCardProps) {
         </div>
       </dl>
 
-      <form>
+      <form action={completeOrder}>
         <button
           type="submit"
           className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-2 px-2 py-1.5 text-xs md:text-sm uppercase font-semibold cursor-pointer whitespace-normal break-words text-center rounded"
@@ -51,6 +52,6 @@ export default function OrderCard({ order }: OrderCardProps) {
           Orden Completada
         </button>
       </form>
-        </section>
-      );
-    }
+    </section>
+  );
+}
