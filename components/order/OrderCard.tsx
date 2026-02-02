@@ -45,6 +45,7 @@ export default function OrderCard({ order }: OrderCardProps) {
       </dl>
 
       <form action={completeOrder}>
+        <input type="hidden" name="order_id" value={order.id} />
         <button
           type="submit"
           className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-2 px-2 py-1.5 text-xs md:text-sm uppercase font-semibold cursor-pointer whitespace-normal break-words text-center rounded"
