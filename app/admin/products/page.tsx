@@ -32,11 +32,14 @@ export default async function ProductPage(searchParams: {
   const productsData =  getProducts(page, pageSize);
   const totalProductData =  productCount();
   const [products, totalProducts] = await Promise.all([productsData, totalProductData]);
+  const totalPages = Math.ceil(totalProducts / pageSize);
   return (
     <>
       <Heading>Administrar Productos</Heading>
       <ProductTable products={products} />
-      <ProductPagination page={page} />
+      <ProductPagination page={page} 
+      totalPages={totalPages}
+      />
     </>
   );
 }
