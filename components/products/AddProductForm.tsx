@@ -1,6 +1,8 @@
 import ProductForm from "./ProductForm";
+import { prisma } from "@/src/lib/prisma";
 
-export default function AddProductForm() {
+export default async function AddProductForm() {
+  const categories = await prisma.category.findMany();
   return (
     <div
       className="
@@ -13,24 +15,7 @@ export default function AddProductForm() {
     max-w-3xl
     mx-auto"
     >
-      <ProductForm />
-      <form className="space-y-5">
-        <input
-          type="submit"
-          value="Agregar Producto"
-          className="
-          bg-indigo-600 
-          hover:bg-indigo-700 
-          transition-colors
-          text-white  
-          w-full
-          mt-5
-          p-3
-          uppercase
-          cursor-pointer
-          "
-        />
-      </form>
+      <ProductForm categories={categories} />
     </div>
   );
 }
