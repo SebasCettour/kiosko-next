@@ -1,0 +1,46 @@
+"use client";
+
+import { CldUploadWidget } from "next-cloudinary";
+import { useState } from "react";
+import { TbPhotoPlus } from "react-icons/tb";
+
+export default function ImageUpload() {
+  const [imageUrl, setImageUr] = useState<string>("");
+  return (
+    <CldUploadWidget
+      onSuccess={(result, { widget }) => {
+        if (result.event === "success") {
+          widget.close();
+          //@ts-ignore
+          setImageUr(result.info.secure_url);
+          widget.close();
+        }
+      }}
+      uploadPreset="rllydfk"
+      options={{ maxFiles: 1 }}
+    >
+      {({ open }) => (
+        <>
+          <div className="space-y-2" onClick={() => open()}>
+            <label className="text-slate-800">Imagen:</label>
+            <div className=" bg-slate-100 relative cursor-pointer hover:opacity-70 transition border-dashed border-2 p-20 border-slate-300 flex flex-col justify-center items-center gap-4">
+              <TbPhotoPlus size={30} />
+              <p className="text-sm font font-semibold">Agregar Imagen</p>
+
+              {imageUrl && (
+                <div className="absolute inset-0 w-full h-full">
+                  <img
+                    src={imageUrl}
+                    alt="Imagen del producto"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+          <input type="hidden" name="image" value={imageUrl} />
+        </>
+      )}
+    </CldUploadWidget>
+  );
+}
