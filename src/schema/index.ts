@@ -13,3 +13,10 @@ export const OrderSchema = z.object({
     }),
   ),
 });
+
+export const SearchSchema = z.object({
+  search: z
+    .string()
+    .trim()
+    .min(1, "El término de búsqueda no puede estar vacío"),
+});

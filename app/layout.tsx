@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const font = Inter({ subsets: ["latin"], weight: ["400", "700", "900"] });
 
@@ -20,6 +22,7 @@ export default function RootLayout({
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           {children}
         </div>
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
       </body>
     </html>
   );
