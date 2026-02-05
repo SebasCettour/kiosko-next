@@ -1,14 +1,10 @@
-type Category = {
-  id: number;
-  name: string;
-  slug: string;
-};
+import { prisma } from "@/src/lib/prisma";
 
-interface ProductFormProps {
-  categories: Category[];
+async function getCategories() {
+  return await prisma.category.findMany();
 }
-
-export default function ProductForm({ categories }: ProductFormProps) {
+export default async function ProductForm() {
+  const categories = await getCategories();
   return (
     <>
       <div className="space-y-2">

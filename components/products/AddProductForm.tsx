@@ -1,8 +1,9 @@
+"use client";
 import ProductForm from "./ProductForm";
-import { prisma } from "@/src/lib/prisma";
 
-export default async function AddProductForm() {
-  const categories = await prisma.category.findMany();
+export default async function AddProductForm({ children }: { children: React.ReactNode }) {
+  const handleSubmit = async (formData: FormData) => {};
+
   return (
     <div
       className="
@@ -15,7 +16,25 @@ export default async function AddProductForm() {
     max-w-3xl
     mx-auto"
     >
-      <ProductForm categories={categories} />
+      <form className="space-y-5" action={handleSubmit}>
+        {children}
+        <input
+          type="submit"
+          value="Crear Producto"
+          className="
+        bg-indigo-600 
+        hover:bg-indigo-700 
+        transition-shadow
+        text-white
+        font-semibold
+        w-full
+        cursor-pointer
+        px-5
+        rounded-md
+        py-3
+        mb-5"
+        ></input>
+      </form>
     </div>
   );
 }
