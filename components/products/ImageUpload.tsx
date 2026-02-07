@@ -1,18 +1,22 @@
 "use client";
 
-import { CldUploadWidget } from "next-cloudinary";
+import {
+  CldUploadWidget,
+  type CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
 import { useState } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
 
 export default function ImageUpload() {
-  const [imageUrl, setImageUr] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
   return (
     <CldUploadWidget
-      onSuccess={(result, { widget }) => {
+      onSuccess={(result: CloudinaryUploadWidgetResults, { widget }) => {
         if (result.event === "success") {
-          widget.close();
-          //@ts-ignore
-          setImageUr(result.info.secure_url);
+          const info = result.info;
+          if (info && typeof info !== "string" && info.secure_url) {
+            setImageUrl(info.secure_url);
+          }
           widget.close();
         }
       }}
@@ -38,7 +42,7 @@ export default function ImageUpload() {
               )}
             </div>
           </div>
-          <input type="hidden" name="image" value={imageUrl} />
+          <input type="hidden" name="imageUrl" value={imageUrl} />
         </>
       )}
     </CldUploadWidget>

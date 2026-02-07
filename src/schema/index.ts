@@ -30,12 +30,13 @@ export const ProductSchema = z.object({
     .string()
     .trim()
     .transform((value) => parseFloat(value))
-    .refine((value) => value > 0, { message: "Precio no válido" })
-    .or(z.number().min(1, { message: "La Categoría es Obligatoria" })),
+    .refine((value) => value > 0, { message: "Precio no valido" })
+    .or(z.number().min(1, { message: "La Categoria es Obligatoria" })),
   categoryId: z
     .string()
     .trim()
     .transform((value) => parseInt(value))
-    .refine((value) => value > 0, { message: "La Categoría es Obligatoria" })
-    .or(z.number().min(1, { message: "La Categoría es Obligatoria" })),
+    .refine((value) => value > 0, { message: "La Categoria es Obligatoria" })
+    .or(z.number().min(1, { message: "La Categoria es Obligatoria" })),
+  imageUrl: z.string().min(1, { message: "La Imagen es Obligatoria" }),
 });
