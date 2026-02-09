@@ -22,7 +22,6 @@ export default function OrderCard({ order }: OrderCardProps) {
         bg-gray-50
         p-4
         sm:p-6
-        h-full
         flex
         flex-col
         gap-4
@@ -38,7 +37,7 @@ export default function OrderCard({ order }: OrderCardProps) {
       </p>
 
       {/* Lista de productos */}
-      <dl className="flex-1 overflow-y-auto space-y-4 pr-1">
+      <dl className="space-y-4 pr-1">
         {order.orderProducts.map(({ product, quantity }) => (
           <div
             key={product.id}
