@@ -1,16 +1,16 @@
-import { prisma } from "@/src/lib/prisma";
+"use client";
 import ImageUpload from "./ImageUpload";
 import { Product } from "@prisma/client";
-
-async function getCategories() {
-  return await prisma.category.findMany();
-}
+import { useState } from "react";
 
 type ProductFormProps = {
   product?: Product;
+  categories: Array<{ id: number; name: string }>;
 };
-export default async function ProductForm({ product }: ProductFormProps) {
-  const categories = await getCategories();
+
+export default function ProductForm({ product, categories }: ProductFormProps) {
+  const [imageUrl, setImageUrl] = useState<string>(product?.imageUrl || "");
+
   return (
     <>
       <div className="space-y-2">
@@ -58,7 +58,8 @@ export default async function ProductForm({ product }: ProductFormProps) {
           ))}
         </select>
       </div>
-      <ImageUpload image={product?.imageUrl ?? undefined} />
+      <ImageUpload image={imageUrl} onChange={setImageUrl} />
+      <input type="hidden" name="imageUrl" value={imageUrl} />
     </>
   );
 }

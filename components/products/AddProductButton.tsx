@@ -8,24 +8,28 @@ type AddProductButtonProps = {
 
 export default function AddProductButton({ product }: AddProductButtonProps) {
   const addToOrder = useStore((state) => state.addToOrder);
+
   return (
     <button
       type="button"
+      onClick={() => addToOrder(product)}
       className="
-            mt-5 
-            w-full
-            bg-amber-500
-            hover:bg-amber-600
-            text-white
-            p-3
-            uppercase
-            font-bold
-            cursor-pointer
-            rounded
-            "
-      onClick={() => {
-        addToOrder(product);
-      }}
+        w-full
+        mt-3
+        rounded
+        bg-amber-500
+        px-3
+        py-1.5
+        text-xs
+        font-medium
+        text-white
+        hover:bg-amber-600
+        transition-colors
+        focus:outline-none
+        focus:ring-1
+        focus:ring-amber-500
+        active:scale-[0.97]
+      "
     >
       Agregar
     </button>

@@ -1,13 +1,12 @@
 import { completeOrder } from "@/actions/complete-order-action";
 import { OrderWithProducts } from "@/src/types";
-import { format } from "path";
 
 type OrderCardProps = {
   order: OrderWithProducts;
 };
 
 export default function OrderCard({ order }: OrderCardProps) {
-  function formatCurrency(totalPrice: number): React.ReactNode {
+  function formatCurrency(totalPrice: number) {
     return totalPrice.toLocaleString("es-MX", {
       style: "currency",
       currency: "MXN",
@@ -18,39 +17,73 @@ export default function OrderCard({ order }: OrderCardProps) {
   return (
     <section
       aria-labelledby="summary-heading"
-      className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6  lg:mt-0 lg:p-8 space-y-4 h-full flex flex-col"
+      className="
+        rounded-xl
+        bg-gray-50
+        p-4
+        sm:p-6
+        h-full
+        flex
+        flex-col
+        gap-4
+      "
     >
-      <p className="text-lg font-medium text-gray-900">
-        Cliente: {order.name}{" "}
+      {/* Cliente */}
+      <p className="text-base md:text-lg font-semibold text-gray-900">
+        Cliente: <span className="font-normal">{order.name}</span>
       </p>
-      <p className="text-base font-medium text-gray-900">
-        Productos Ordenados:
+
+      <p className="text-sm md:text-base font-medium text-gray-900">
+        Productos ordenados
       </p>
-      <dl className="mt-6 space-y-4">
+
+      {/* Lista de productos */}
+      <dl className="flex-1 overflow-y-auto space-y-4 pr-1">
         {order.orderProducts.map(({ product, quantity }) => (
           <div
             key={product.id}
-            className="flex items-center gap-2 border-t border-gray-200 pt-4"
+            className="flex items-start gap-2 border-t border-gray-200 pt-3"
           >
-            <span className="text-sm text-gray-700">(x{quantity})</span>
-            <span className="text-sm text-gray-700">{product.name}</span>
+            <span className="text-xs md:text-sm text-gray-600 whitespace-nowrap">
+              x{quantity}
+            </span>
+            <span className="text-sm md:text-base text-gray-700 break-words">
+              {product.name}
+            </span>
           </div>
         ))}
-        <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-          <dt className="text-sm font-medium text-gray-900">Total a Pagar:</dt>
-          <dd className="text-sm font-medium text-gray-900">
+
+        {/* Total */}
+        <div className="flex items-center justify-between border-t border-gray-300 pt-4">
+          <dt className="text-sm md:text-base font-semibold text-gray-900">
+            Total a pagar
+          </dt>
+          <dd className="text-sm md:text-base font-bold text-gray-900">
             {formatCurrency(order.totalPrice)}
           </dd>
         </div>
       </dl>
 
-      <form action={completeOrder}>
+      {/* Acción */}
+      <form action={completeOrder} className="pt-2">
         <input type="hidden" name="order_id" value={order.id} />
         <button
           type="submit"
-          className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-2 px-2 py-1.5 text-xs md:text-sm uppercase font-semibold cursor-pointer whitespace-normal break-words text-center rounded"
+          className="
+            w-full
+            rounded-md
+            bg-indigo-600
+            py-2.5
+            text-sm
+            md:text-base
+            font-semibold
+            uppercase
+            text-white
+            hover:bg-indigo-800
+            transition-colors
+          "
         >
-          Orden Completada
+          Orden completada
         </button>
       </form>
     </section>

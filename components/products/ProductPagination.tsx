@@ -10,8 +10,9 @@ export default function ProductPagination({
   page,
   totalPages,
 }: ProductPaginationProps) {
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   return (
-    <nav className="flex justify-center py-10 gap-4">
+    <nav className="flex justify-center py-10 gap-2 flex-wrap">
       {page > 1 && (
         <Link
           href={`/admin/products?page=${page - 1}`}
@@ -21,7 +22,20 @@ export default function ProductPagination({
           &laquo;
         </Link>
       )}
-      <span className="px-3 py-1 text-lg font-semibold text-gray-700">{page} / {totalPages}</span>
+      {pages.map((p) => (
+        <Link
+          key={p}
+          href={`/admin/products?page=${p}`}
+          className={`px-3 py-1 rounded-lg font-semibold border transition-colors duration-150 ${
+            p === page
+              ? "bg-indigo-600 text-white border-indigo-600"
+              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400"
+          }`}
+          aria-label={`Ir a la página ${p}`}
+        >
+          {p}
+        </Link>
+      ))}
       {page < totalPages && (
         <Link
           href={`/admin/products?page=${page + 1}`}

@@ -3,36 +3,44 @@ import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 
 async function getProducts(category: string) {
-  const products = await prisma.product.findMany({
+  return prisma.product.findMany({
     where: {
       category: {
         slug: category,
       },
     },
   });
-  return products;
 }
+
 export default async function OrderPage({
   params,
 }: {
   params: { category: string };
 }) {
   const products = await getProducts(params.category);
+
   return (
     <>
       <Heading>Elige y personaliza tu pedido</Heading>
-      <div
-        className="
-    grid 
-    grid-cols-1 
-    md:grid-cols-2 
-    lg:grid-cols-3 
-    gap-4
-    items-start"
-      >
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+
+      <div className="w-full px-4">
+        <div
+          className="
+            mx-auto
+            max-w-7xl
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            lg:grid-cols-3
+            xl:grid-cols-3
+            gap-6
+            items-stretch
+          "
+        >
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </>
   );

@@ -21,13 +21,13 @@ export default async function EditProductPage({
   params: { id: string };
 }) {
   const product = await getProductById(+params.id);
+  const categories = await prisma.category.findMany();
   return (
     <>
       <Heading>Editar Producto: {product.name}</Heading>
       <GoBackButton />
-
       <EditProductForm>
-        <ProductForm product={product} />
+        <ProductForm product={product} categories={categories} />
       </EditProductForm>
     </>
   );

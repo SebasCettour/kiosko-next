@@ -1,6 +1,10 @@
 import { useStore } from "@/src/store";
 import { OrderItem } from "@/src/types";
-import { MinusIcon, PlusIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import {
+  MinusIcon,
+  PlusIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import React, { useEffect, useState } from "react";
 
 type ProductDetailsProps = {
@@ -8,14 +12,17 @@ type ProductDetailsProps = {
   showToast: (msg: string) => void;
 };
 
-export default function ProductDetails({ item, showToast }: ProductDetailsProps) {
+export default function ProductDetails({
+  item,
+  showToast,
+}: ProductDetailsProps) {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
     setAnimate(true);
-    const timeout = setTimeout(() => setAnimate(false), 500);
+    const timeout = setTimeout(() => setAnimate(false), 300);
     return () => clearTimeout(timeout);
-  }, [item.quantity]); // Se activa cuando cambia la cantidad
+  }, [item.quantity]);
 
   const increaseQuantity = useStore((state) => state.increaseQuantity);
   const decreaseQuantity = useStore((state) => state.decreaseQuantity);
@@ -23,12 +30,12 @@ export default function ProductDetails({ item, showToast }: ProductDetailsProps)
 
   const handleIncrease = () => {
     increaseQuantity(item.id);
-    showToast("Producto actualizado en el pedido");
+    showToast("Producto actualizado");
   };
 
   const handleDecrease = () => {
     decreaseQuantity(String(item.id));
-    showToast("Producto actualizado en el pedido");
+    showToast("Producto actualizado");
   };
 
   const handleRemove = () => {
@@ -38,52 +45,73 @@ export default function ProductDetails({ item, showToast }: ProductDetailsProps)
 
   return (
     <div
-      className={`bg-white border rounded-lg shadow-md p-5 flex flex-col gap-3 ${
-        animate ? "animate-bounce-in" : ""
-      }`}
+      className={`
+        border
+        border-gray-200
+        rounded-md
+        bg-white
+        p-4
+        flex
+        flex-col
+        gap-2
+        transition
+        ${animate ? "ring-2 ring-amber-400" : ""}
+      `}
     >
-      <div className="flex justify-between items-start">
-        <p className="text-lg font-bold text-gray-800">{item.name}</p>
+      {/* Header */}
+      <div className="flex justify-between items-start gap-2">
+        <p className="text-sm md:text-base font-semibold text-gray-800 break-words">
+          {item.name}
+        </p>
         <button
           type="button"
           onClick={handleRemove}
-          className="hover:scale-110 transition-transform"
           title="Eliminar"
+          className="text-red-500 hover:text-red-700 transition"
         >
-          <XCircleIcon className="text-red-500 h-7 w-7" />
+          <XMarkIcon className="h-5 w-5" />
         </button>
       </div>
-      <p className="text-xl text-amber-500 font-extrabold">
+
+      {/* Precio unitario */}
+      <p className="text-sm md:text-base font-bold text-amber-600">
         ${Number(item.price).toFixed(2)}
       </p>
-      <div className="flex items-center gap-4 px-4 py-2 bg-gray-100 rounded-lg w-fit mx-auto">
-        <button
-          type="button"
-          onClick={handleDecrease}
-          className="p-1 rounded hover:bg-gray-200 transition"
-          title="Disminuir"
-        >
-          <MinusIcon className="h-6 w-6" />
-        </button>
-        <span className="text-lg font-bold w-8 text-center">
-          {item.quantity}
-        </span>
-        <button
-          type="button"
-          onClick={handleIncrease}
-          className="p-1 rounded hover:bg-gray-200 transition"
-          title="Aumentar"
-        >
-          <PlusIcon className="h-6 w-6" />
-        </button>
+
+      {/* Controles */}
+      <div className="flex items-center justify-between gap-4 mt-1">
+        <div className="flex items-center gap-2 bg-gray-100 rounded-md px-2 py-1">
+          <button
+            type="button"
+            onClick={handleDecrease}
+            title="Disminuir"
+            className="p-1 rounded hover:bg-gray-200 transition"
+          >
+            <MinusIcon className="h-4 w-4" />
+          </button>
+
+          <span className="text-sm font-bold w-6 text-center">
+            {item.quantity}
+          </span>
+
+          <button
+            type="button"
+            onClick={handleIncrease}
+            title="Aumentar"
+            className="p-1 rounded hover:bg-gray-200 transition"
+          >
+            <PlusIcon className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Subtotal */}
+        <p className="text-sm md:text-base font-semibold text-gray-700">
+          Subtotal{" "}
+          <span className="font-bold text-amber-600">
+            ${(Number(item.price) * item.quantity).toFixed(2)}
+          </span>
+        </p>
       </div>
-      <p className="text-lg font-bold text-gray-700 text-right">
-        Subtotal:{" "}
-        <span className="text-amber-600">
-          ${" "}
-          {(Number(item.price) * item.quantity).toFixed(2)}
-        </span>
-      </p>
     </div>
   );
 }

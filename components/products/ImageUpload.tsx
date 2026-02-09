@@ -4,19 +4,24 @@ import {
   CldUploadWidget,
   type CloudinaryUploadWidgetResults,
 } from "next-cloudinary";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
 import Image from "next/image";
 import { getImagePath } from "@/src/utils";
 
-export default function ImageUpload({ image }: { image?: string | undefined }) {
+export default function ImageUpload({ image, onChange }: { image?: string | undefined; onChange?: (url: string) => void }) {
   const [imageUrl, setImageUrl] = useState<string>(image || "");
+  useEffect(() => {
+    if (onChange) {
+      onChange(imageUrl);
+    }
+  }, [imageUrl, onChange]);
   const previewSrc = imageUrl
     ? imageUrl.startsWith("http")
       ? imageUrl
       : getImagePath(imageUrl)
     : "";
-  const showDropPreview = Boolean(previewSrc && (!image || imageUrl !== image));
+  const showDropPreview = Boolean(previewSrc);
   return (
     <CldUploadWidget
       onSuccess={(result: CloudinaryUploadWidgetResults, { widget }) => {

@@ -5,20 +5,89 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-4 px-1 md:px-3 lg:px-4">
-      <div className="mx-auto md:flex w-full max-w-none rounded-2xl shadow-lg bg-white overflow-hidden border border-gray-200 transition-all duration-500 ease-in-out animate-fade-in">
-        <aside className="bg-white md:w-60 px-4 pt-0 pb-6 flex-shrink-0 border-r border-gray-100 transition-all duration-500 ease-in-out">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 p-2 md:p-4">
+      <div
+        className="
+          mx-auto
+          w-full
+          max-w-7xl
+          rounded-2xl
+          shadow-lg
+          bg-white
+          border
+          border-gray-200
+          overflow-hidden
+          flex
+          flex-col
+          md:flex-row
+        "
+      >
+        {/* Sidebar izquierda */}
+        <aside
+          className="
+            bg-white
+            md:w-60
+            w-full
+            px-4
+            py-6
+            flex-shrink-0
+            border-b
+            md:border-b-0
+            md:border-r
+            border-gray-100
+          "
+        >
           <OrderSidebar />
         </aside>
-        <main className="flex-1 h-full md:h-screen overflow-y-auto p-5 md:p-8 bg-white transition-all duration-500 ease-in-out">
+
+        {/* Contenido principal */}
+        <main
+          className="
+            flex-1
+            overflow-y-auto
+            p-5
+            md:p-8
+            bg-white
+            pb-28
+            md:pb-8
+          "
+        >
           {children}
         </main>
-        <aside className="bg-white md:w-80 p-5 flex-shrink-0 border-l border-gray-100 hidden md:block transition-all duration-500 ease-in-out">
+
+        {/* Summary desktop */}
+        <aside
+          className="
+            hidden
+            md:block
+            md:w-80
+            p-5
+            flex-shrink-0
+            border-l
+            border-gray-100
+            bg-white
+          "
+        >
           <OrdenSummary />
         </aside>
       </div>
-      {/* OrdenSummary para mobile */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-100 shadow-lg rounded-t-xl transition-transform duration-500 ease-in-out animate-slide-up">
+
+      {/* Summary mobile fijo */}
+      <div
+        className="
+          fixed
+          bottom-0
+          left-0
+          right-0
+          z-50
+          md:hidden
+          bg-white
+          border-t
+          border-gray-100
+          shadow-lg
+          rounded-t-xl
+        "
+      >
         <OrdenSummary />
       </div>
     </div>
