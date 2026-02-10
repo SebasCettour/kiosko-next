@@ -32,7 +32,7 @@ export default function AddProductForm({
     const response = await createProduct(result.data);
 
     if (response?.errors) {
-      response.errors.forEach((error: any) => {
+      response.errors.forEach((error: { message: string }) => {
         toast.error(error.message);
       });
       return;

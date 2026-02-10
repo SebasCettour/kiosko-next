@@ -1,8 +1,8 @@
 "use client";
 import useSWR from "swr";
 import Logo from "@/components/ui/Logo";
-import { OrderWithProducts } from "@/src/types";
 import LatestOrderItem from "@/components/order/LatetstOrderItem";
+import { OrderWithProducts } from "@/src/types";
 
 export default function OrdersPage() {
   const url = "/orders/api";
@@ -10,7 +10,7 @@ export default function OrdersPage() {
     fetch(url)
       .then((res) => res.json())
       .then((data) => data as OrderWithProducts[]);
-  const { data, error, isLoading } = useSWR<OrderWithProducts[]>(url, fetcher, {
+  const { data, isLoading } = useSWR(url, fetcher, {
     refreshInterval: 60000,
   });
 

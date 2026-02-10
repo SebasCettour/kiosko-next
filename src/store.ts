@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { OrderItem } from "./types";
 import { Product } from "@prisma/client";
-import { it } from "node:test";
 
 interface Store {
   order: OrderItem[];
@@ -15,7 +14,7 @@ interface Store {
 export const useStore = create<Store>((set, get) => ({
   order: [],
   addToOrder: (product) => {
-    const { categoryId, imageUrl, ...data } = product;
+     const { ...data } = product;
     let items: OrderItem[] = [];
 
     if (get().order.find((item) => item.id === data.id)) {

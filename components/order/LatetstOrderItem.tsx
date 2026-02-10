@@ -1,3 +1,4 @@
+
 import { OrderWithProducts } from "@/src/types";
 
 type LatestOrderItemProps = {
@@ -13,7 +14,7 @@ export default function LatestOrderItem({ order }: LatestOrderItemProps) {
       "
         role="list"
       >
-        {order.orderProducts.map((product) => (
+        {order.orderProducts.map((product: OrderWithProducts["orderProducts"][number]) => (
           <li key={product.id} className="py-6 block">
             <span>{product.quantity}x</span>
             <p>{product.product.name}</p>

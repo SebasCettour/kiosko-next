@@ -10,7 +10,7 @@ export default function OrdersPage() {
     fetch(url)
       .then((res) => res.json())
       .then((data) => data as OrderWithProducts[]);
-  const { data, error, isLoading } = useSwr<OrderWithProducts[]>(url, fetcher, {
+  const { data, isLoading } = useSwr<OrderWithProducts[]>(url, fetcher, {
     refreshInterval: 60000, // Refresca cada 60 segundos
   });
 
@@ -24,8 +24,8 @@ export default function OrdersPage() {
         {data.length ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 h-full">
             {data.map((order) => (
-              <div className="h-full flex">
-                <OrderCard key={order.id} order={order} />
+              <div key={order.id} className="h-full flex">
+                <OrderCard order={order} />
               </div>
             ))}
           </div>

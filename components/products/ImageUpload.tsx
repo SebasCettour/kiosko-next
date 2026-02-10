@@ -46,11 +46,12 @@ export default function ImageUpload({ image, onChange }: { image?: string | unde
 
               {showDropPreview && (
                 <div className="absolute inset-0 w-full h-full">
-                  <img
-                    src={previewSrc}
-                    alt="Imagen del producto"
-                    className="w-full h-full object-cover"
-                  />
+                    <Image
+                      src={previewSrc}
+                      alt="Imagen del producto"
+                      fill
+                      className="w-full h-full object-cover"
+                    />
                 </div>
               )}
             </div>

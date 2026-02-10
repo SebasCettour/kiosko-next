@@ -1,13 +1,13 @@
 "use client";
 
-import { createProduct } from "@/actions/create-product-action";
+// import { createProduct } from "@/actions/create-product-action";
 import { ProductSchema } from "@/src/schema";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 import { updateProduct } from "@/actions/updadte-product-action";
 
-export default async function EditProductForm({
+export default function EditProductForm({
   children,
 }: {
   children: React.ReactNode;
@@ -32,7 +32,7 @@ export default async function EditProductForm({
 
     const response = await updateProduct(result.data, id);
     if (response?.errors) {
-      response.errors.forEach((error: any) => {
+      response.errors.forEach((error: { message: string }) => {
         toast.error(error.message);
       });
       return;
